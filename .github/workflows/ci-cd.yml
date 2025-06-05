@@ -35,7 +35,8 @@ jobs:
         run: echo "${{ secrets.GHCR_PAT }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Tag Image for GHCR
-        run: podman tag hotel-management-service ghcr.io/${{ github.repository }}:latest
+        run: podman tag hotel-management-service ghcr.io/abhay-saste/hotel-management-service:latest
 
       - name: Push Image to GHCR
-        run: podman push ghcr.io/${{ github.repository }}:latest
+        run: podman push ghcr.io/abhay-saste/hotel-management-service:latest
+
