@@ -1,4 +1,4 @@
-name: CI - Build Java & Create Podman Image
+name: CI - Build Java & Push to GHCR
 
 on:
   push:
@@ -31,6 +31,11 @@ jobs:
         run: |
           podman build -t hotel-management-service:latest .
 
-      - name: Save Podman Image to TAR
-        run: podman save -o hotel-image.tar hotel-management-service:latest
+      - name: Log in to GitHub Container Registry (GHCR)
+        run: echo "${{ secrets.GHCR_PAT }}" | podman login ghcr.io -u ${{ github.actor }} --password-stdin
 
+      - name: Tag Image for GHCR
+        run: podman tag hotel-management-service ghcr.io/${{ github.repository }}:latest
+
+      - name: Push Image to GHCR
+        run: podman push ghcr.io/${{ github.repository }}:latest
