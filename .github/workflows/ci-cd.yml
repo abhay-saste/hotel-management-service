@@ -31,6 +31,9 @@ jobs:
         run: |
           podman build -t hotel-management-service:latest .
 
+      - name: Save Podman Image to TAR
+        run: podman save -o hotel-image.tar hotel-management-service:latest
+
       - name: Upload Image TAR
         uses: actions/upload-artifact@v3
         with:
@@ -45,4 +48,3 @@ jobs:
 
       - name: Push Image to GHCR
         run: podman push ghcr.io/abhay-saste/hotel-management-service:latest
-
